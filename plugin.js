@@ -137,4 +137,4 @@ class Plugin {
   };
 }
 
-export { Plugin };
+export default Plugin;
