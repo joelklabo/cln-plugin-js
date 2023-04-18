@@ -1,6 +1,6 @@
 import net from 'net';
 
-async function sendJsonRpcMessage(socketPath, method, params) {
+async function sendJsonRpcMessage(socketPath, method, params = {}) {
   const socket = await new Promise((resolve, reject) => {
     const client = net.connect({ path: socketPath }, () => {
       resolve(client);
