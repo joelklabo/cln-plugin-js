@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { sendJsonRpcMessage } from "./rpc.js";
-import { log } from "./log.js";
+import log from "./log.js";
 import path from "path";
 
 class Plugin {

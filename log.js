@@ -1,21 +1,25 @@
-// Import modules
-import fs from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-// Get the current directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-async function log(text) {
+function log(text) {
   const tempFilePath = path.join(__dirname, 'log.txt');
 
   try {
-    await fs.appendFile(tempFilePath, text + '\n');
+    fs.appendFileSync(tempFilePath, text + '\n');
   } catch (err) {
-    console.error('Error appending text to the temporary file:', err);
+    if (err.code === 'ENOENT') {
+      // If the file doesn't exist, create it and try again
+      fs.writeFileSync(tempFilePath, '');
+      fs.appendFileSync(tempFilePath, text + '\n');
+    } else {
+      console.error('Error appending text to the temporary file:', err);
+    }
   }
 }
 
-export { log };
+export default log
