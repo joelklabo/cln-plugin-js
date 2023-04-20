@@ -104,8 +104,8 @@ class Plugin {
         this.test = message.params.options.test;
         const config = message.params.configuration;
         this.rpc_path = path.join(config["lightning-dir"], config["rpc-file"]);
-        this.initializedCallback(self);
         this.sendResponse(id, this.init);
+        await this.initializedCallback(this);
         break;
       case "testinfo":
         const info = await sendJsonRpcMessage(this.rpc_path, "getinfo", {});
