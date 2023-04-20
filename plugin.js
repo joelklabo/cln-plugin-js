@@ -4,11 +4,12 @@ import log from "./log.js";
 import path from "path";
 
 class Plugin {
-  constructor(options) {
+  constructor(options, initializedCallback) {
     this.dynamic = options.dynamic || false;
     this.options = [];
     this.methods = [];
     this.subscriptions = {};
+    this.initializedCallback = initializedCallback;
   }
 
   addOption = (key, type, description, default_value) => {
@@ -103,6 +104,7 @@ class Plugin {
         this.test = message.params.options.test;
         const config = message.params.configuration;
         this.rpc_path = path.join(config["lightning-dir"], config["rpc-file"]);
+        this.initializedCallback(self);
         this.sendResponse(id, this.init);
         break;
       case "testinfo":
