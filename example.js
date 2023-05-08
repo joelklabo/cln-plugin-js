@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import Plugin from "./plugin.js";
-import FileLogger from "./file-logger.js";
 
 const allNotifications = [
 	`channel_opened`,
@@ -22,7 +21,6 @@ const allNotifications = [
 ]
 
 const plugin = new Plugin({ dynamic: true })
-const logger = new FileLogger('[Example]')
 
 plugin.addMethod("testinfo", "get info", "description", async () => {
 	return await plugin.rpc.call("getinfo")
@@ -31,8 +29,8 @@ plugin.addMethod("testinfo", "get info", "description", async () => {
 
 allNotifications.forEach(notification => {
 	plugin.subscribe(notification, (params) => {
-		logger.log(`Received notification: ${notification}`)
-		logger.log(`Params: ${JSON.stringify(params)}`)
+		plugin.log(`Received notification: ${notification}`)
+		plugin.log(`Params: ${JSON.stringify(params)}`)
 	})
 })
 

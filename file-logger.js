@@ -13,14 +13,18 @@ class FileLogger {
   }
 
   log(text) {
-    this.appendToFile(`${this.prefix} ${text}`);
+    const logText = `${this.prefix} ${text}`;
+    this._appendToFile(logText);
+    this._logStdOut(logText);
   }
 
   error(text) {
-    this.appendToFile(`${this.prefix} [ERROR] ${text}`);
+    const logText = `${this.prefix} [ERROR] ${text}`;
+    this._appendToFile(logText);
+    this._logStdOut(logText);
   }
 
-  appendToFile(text) {
+  _appendToFile(text) {
     try {
       fs.appendFileSync(this.logFilePath, text + '\n');
     } catch (err) {
@@ -32,6 +36,15 @@ class FileLogger {
         console.error('Error appending text to the log file:', err);
       }
     }
+  }
+
+  _logStdOut(message, level = 'info') {
+    const request = {
+      jsonrpc: '2.0',
+      method: 'log',
+      params: {level: level, message: message},
+    };
+    process.stdout.write(JSON.stringify(request));
   }
 }
 
