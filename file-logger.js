@@ -7,9 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 class FileLogger {
-  constructor(prefix, logName = 'debug.log') {
+  constructor(prefix, logPath) {
     this.prefix = prefix;
-    this.logFilePath = path.join(__dirname, logName);
+    this.logFilePath = logPath || path.join(__dirname, 'plugin.log');
   }
 
   log(text) {

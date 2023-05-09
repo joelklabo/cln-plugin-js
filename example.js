@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
+import FileLogger from "./file-logger.js";
 import Plugin from "./plugin.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const allNotifications = [
 	`channel_opened`,
@@ -20,7 +24,10 @@ const allNotifications = [
 	`shutdown`
 ]
 
-const plugin = new Plugin({ dynamic: true })
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const plugin = new Plugin({ dynamic: true }, new FileLogger('[Example]', path.join(__dirname, 'example.log')))
 
 plugin.addMethod("testinfo", "get info", "description", async () => {
 	return await plugin.rpc.call("getinfo")
